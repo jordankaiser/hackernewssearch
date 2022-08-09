@@ -15,7 +15,7 @@ export default function Search() {
   /**
    * Handle form submission.
    *
-   * @param {SyntheticBaseEvent} event - A string param
+   * @param {SyntheticBaseEvent} event - The event object.
    */
   const handleSubmit = (event) => {
     event.preventDefault();
