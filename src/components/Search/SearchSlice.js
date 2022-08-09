@@ -16,5 +16,5 @@ export const searchSlice = createSlice({
 // Export state reducer setters.
 export const { setSearches } = searchSlice.actions;
 
-// Eport state reducer.
+// Export state reducer.
 export default searchSlice.reducer;
