@@ -1,11 +1,13 @@
-import logo from '../../img/logo.svg';
-import './App.css';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
+import './App.css';
+import Search from '../Search/Search'
+import Home from "../Home/Home";
+import History from "../History/History";
 
 function App() {
   return (
@@ -26,43 +28,15 @@ function App() {
             </ul>
           </nav>
 
-          {/* A <Routes> looks through its children <Route>s and
-              renders the first one that matches the current URL. */}
           <Routes>
-            <Route path="/search"  element={<About/>} />
-            <Route path="/history"  element={<Users/>} />
+            <Route path="/search"  element={<Search />} />
+            <Route path="/history"  element={<History/>} />
             <Route path="/"  element={<Home/>} />
           </Routes>
         </div>
       </Router>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     </div>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 export default App;
