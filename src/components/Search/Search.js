@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearches } from './SearchSlice';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import axios from 'axios';
 
 export default function Search() {
   // Store dispatcher.
@@ -12,6 +13,12 @@ export default function Search() {
   // Get searches from state.
   const searchState = useSelector(state => state.searches);
 
+  // Search results.
+  const [searchResults, setSearchResults] = useState([]);
+
+  // Search results.
+  const [resultsLoading, setResultsLoading] = useState(false);
+
   /**
    * Handle form submission.
    *
@@ -22,12 +29,64 @@ export default function Search() {
 
     // Ensure the user searched for something.
     if (textInput.current.value !== '') {
-      // Get past searches and append the latest search.
-      const searches = [...searchState.searches];
-      searches.push(textInput.current.value);
-  
-      // Send searches to store.
-      dispatch(setSearches(searches));
+      dispatchSearchToStore();
+    }
+  };
+
+  /**
+   * Dispatch user search to store.
+   */
+  const dispatchSearchToStore = () => {
+    // Get past searches and append the latest search.
+    const searches = [...searchState.searches];
+    searches.push(textInput.current.value);
+
+    // Send searches to store.
+    dispatch(setSearches(searches));
+    queryAPI();
+  };
+
+  const queryAPI = () => {
+    // Start loading indicator.
+    setResultsLoading(true);
+
+    // Get rep data.
+    axios.get(`http://hn.algolia.com/api/v1/search?query=${textInput.current.value}`)
+      .then((response) => {
+
+        // Format response data to be used in results loop.
+        const { data } = response;
+        const searchResults = data.hits.map(hit => {
+          return {
+            title: hit.title,
+            url: hit.url,
+            id: hit.objectID,
+          }
+        });
+
+        // Store search results in component state.
+        setSearchResults(searchResults);
+
+        // Stop loading indicator.
+        setResultsLoading(false);
+      })
+      .catch((error) => {
+        // Stop loading indicator.
+        setResultsLoading(false);
+
+        // Log error.
+        console.log('Error connecting to Hacker News API.', error);
+      });
+  };
+
+  const SearchResultsDisplay = () => {
+    if (resultsLoading) {
+      return <div>loading...</div>
+    }
+    else if (searchResults.length > 0) {
+      return <div>results found</div>
+    } else {
+      return <div>Preform a search to see results.</div>
     }
   };
 
@@ -40,6 +99,9 @@ export default function Search() {
         </label>
         <input type="submit" value="Submit" />
       </form>
+      <div className="results">
+        <SearchResultsDisplay />
+      </div>
     </>
   )
 }
