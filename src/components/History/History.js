@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function History() {
   // Get searches from state.
-  const searchState = useSelector(state => state.searches);
+  const searchState = useSelector(state => state.search);
 
   const SearchItemsMarkup = () => {
     // Generate list of user's searched terms.
