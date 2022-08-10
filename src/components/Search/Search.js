@@ -37,7 +37,7 @@ export default function Search() {
   };
 
   /**
-   * Dispatch user search to store.
+   * Initiate Hacker News search.
    */
   const initiateSearch = () => {
     // Search phrase.
@@ -76,13 +76,13 @@ export default function Search() {
         });
 
         if (hackerNewsResults.length === 0) {
-          // Store lack of results.
+          // No results found.
           setNoResultsFound(true);
 
           // Empty search results.
           dispatch(setResults([]));
         } else {
-          // Store lack of results.
+          // Results found.
           setNoResultsFound(false);
 
           // Store search results in state.
@@ -92,7 +92,7 @@ export default function Search() {
         // Stop loading indicator.
         setResultsLoading(false);
 
-        // Display connection error.
+        // Hide connection error if displayed.
         setConnectionError(false);
       })
       .catch((error) => {
@@ -102,7 +102,7 @@ export default function Search() {
         // Display connection error.
         setConnectionError(true);
 
-        // Store lack of results.
+        // No results found.
         setNoResultsFound(false);
 
         // Log error.
