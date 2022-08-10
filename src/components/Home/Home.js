@@ -3,6 +3,10 @@ export default function Home() {
     <>
       <h1>Project description.</h1>
 
+      <p>This project was created as part of an application process.</p>
+
+      <h2>Project Brief</h2>
+
       <p>Using the Javascript framework of your choice, build an application that has two pages users can navigate to:</p>
 
       <ul>
